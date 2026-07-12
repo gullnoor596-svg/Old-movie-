@@ -33,85 +33,160 @@ body{
     backdrop-filter:blur(12px);
     overflow:hidden;
     z-index:1000;
-    transition:0.4s;
+
+    transition:width .15s ease-out;
+    will-change:width;
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     gap:15px;
-    padding-left:0px;
+    padding-left:0;
     border-radius:0 25px 300px 0;
 }
+
 .drawer::before{
     content:"";
     position:absolute;
     inset:0;
     padding:3px;
     border-radius:0 25px 500px 0;
-    background:linear-gradient(270deg,#00ff88,#00ccff,#ff00ff,#00ff88);
+
+    background:linear-gradient(
+        270deg,
+        #00ff88,
+        #00ccff,
+        #ff00ff,
+        #00ff88
+    );
+
     background-size:600% 600%;
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+
+    -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+
     -webkit-mask-composite:xor;
     mask-composite:exclude;
-    animation:borderMove 6s linear infinite;
+
+    animation:borderMove 4s linear infinite;
 }
+
 @keyframes borderMove{
-    0%{background-position:0%}
-    100%{background-position:200%}
+    from{
+        background-position:0%;
+    }
+    to{
+        background-position:200%;
+    }
 }
+
 .drawer a{
     padding:15px;
     font-size:40px;
-    color: var(--highlight-color);
+    color:var(--highlight-color);
     text-decoration:none;
     display:block;
-    transition:0.5s;
+
+    transition:.2s ease;
+    transform:translateX(0);
+
     z-index:1002;
     border-radius:10px;
 }
+
 .drawer a:hover{
-    background:rgba(0,255,136,0.2);
+    background:rgba(0,255,136,.2);
     color:#fff;
+    transform:translateX(8px);
 }
+
 .closebtn{
     position:absolute;
     right:15px;
     top:10px;
-    font-size:100px;
+    font-size:80px;
     cursor:pointer;
     z-index:1003;
 }
+
 #openDrawerBtn{
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 60px;
-    background: linear-gradient(45deg,#00ff88,#00ccff);
+    position:absolute;
+    top:20px;
+    left:20px;
+
+    font-size:60px;
+    background:linear-gradient(45deg,#00ff88,#00ccff);
+
     border:none;
     padding:10px;
     border-radius:10px;
+
     cursor:pointer;
     z-index:1001;
+
+    transition:.2s;
 }
-h1{text-align:center;font-size:80px;margin-top:80px;}
+
+#openDrawerBtn:active{
+    transform:scale(.9);
+}
+
+h1{
+    text-align:center;
+    font-size:80px;
+    margin-top:80px;
+}
+
 .rainbow-text{
     font-weight:bold;
-    background:linear-gradient(90deg,red,magenta,blue,cyan,green,yellow,red);
+
+    background:linear-gradient(
+        90deg,
+        red,
+        magenta,
+        blue,
+        cyan,
+        green,
+        yellow,
+        red
+    );
+
     background-size:200%;
+
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    animation:shimmer 3s linear infinite;
+
+    animation:shimmer 2.5s linear infinite;
 }
-@keyframes shimmer{0%{background-position:100%}100%{background-position:-100%}}
-.search-container{text-align:center;margin:20px;}
+
+@keyframes shimmer{
+    from{
+        background-position:100%;
+    }
+    to{
+        background-position:-100%;
+    }
+}
+
+.search-container{
+    text-align:center;
+    margin:20px;
+}
+
 .search-container input{
-    width:600%;
+    width:90%;
     max-width:700px;
+
     padding:35px;
     font-size:35px;
+
     border-radius:15px;
     border:none;
-    background: var(--search-bg);
-    color: var(--text-color);
+
+    background:var(--search-bg);
+    color:var(--text-color);
+}
 }
 .grid{
     display:grid;
