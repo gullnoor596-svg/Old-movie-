@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>𝗚𝗨𝗟𝗟 𝗞𝗛𝗔𝗡 𝗪𝗘𝗕 𝗦𝗘𝗥𝗩𝗘𝗥</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+    --bg-color: #111;
+    --text-color: #fff;
+    --card-bg: rgba(255,255,255,0.05);
+    --highlight-color: #00ff88;
+    --search-bg: #222;
+    --download-hd: linear-gradient(90deg,#00ff88,#00cc55);
+    --download-sd: linear-gradient(90deg,#00ccff,#0066ff);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI',sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    overflow-x:hidden;
+    transition: background 0.7s ease, color 0.7s ease;
+    min-height: 100vh;
+}
+
+/* ─── TOP BAR WITH ICONS ─── */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 45px;
+    background: transparent;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    transition: background 0.7s ease;
+}
+
+/* ─── INFO ICON WITH ANIMATION ─── */
+.info-icon {
+    font-size: 70px;
+    color: var(--highlight-color);
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    position: relative;
+}
+
+/* Info icon pulse animation */
+.info-icon .fa-info-circle {
+    animation: infoPulse 2.5s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes infoPulse {
+    0% { 
+        transform: scale(1); 
+        filter: drop-shadow(0 0 10px rgba(0,255,136,0.3));
+    }
+    50% { 
+        transform: scale(1.08); 
+        filter: drop-shadow(0 0 40px rgba(0,255,136,0.6));
+    }
+    100% { 
+        transform: scale(1); 
+        filter: drop-shadow(0 0 10px rgba(0,255,136,0.3));
+    }
+}
+
+/* Info icon ring animation */
+.info-icon::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,255,136,0.15);
+    animation: infoRing 3s ease-in-out infinite;
+}
+
+@keyframes infoRing {
+    0% { 
+        transform: scale(0.8); 
+        opacity: 0.8;
+    }
+    50% { 
+        transform: scale(1.2); 
+        opacity: 0;
+    }
+    100% { 
+        transform: scale(0.8); 
+        opacity: 0.8;
+    }
+}
+
+/* Second ring with delay */
+.info-icon::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,255,136,0.1);
+    animation: infoRing2 3s ease-in-out infinite 1.5s;
+}
+
+@keyframes infoRing2 {
+    0% { 
+        transform: scale(0.8); 
+        opacity: 0.8;
+    }
+    50% { 
+        transform: scale(1.3); 
+        opacity: 0;
+    }
+    100% { 
+        transform: scale(0.8); 
+        opacity: 0.8;
+    }
+}
+
+.info-icon:hover {
+    transform: scale(1.15) rotate(-10deg);
+    color: #fff;
+}
+.info-icon:hover .fa-info-circle {
+    animation: none;
+    filter: drop-shadow(0 0 60px rgba(0,255,136,0.8));
+}
+.info-icon:hover::before,
+.info-icon:hover::after {
+    animation: none;
+    opacity: 0;
+}
+
+/* ─── THEME TOGGLE - NO BLACK CIRCLE ─── */
+.theme-toggle {
+    font-size: 70px;
+    cursor: pointer;
+    user-select: none;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    position: relative;
+    box-shadow: none !important;
+}
+
+.theme-toggle .icon-wrapper {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+}
+
+/* ─── MOON WITH STARS ─── */
+.theme-toggle .icon-wrapper .moon-container {
+    position: absolute;
+    transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    background: transparent !important;
+}
+
+.theme-toggle .icon-wrapper .moon-container .fa-moon {
+    font-size: 75px;
+    color: #f0e68c;
+    filter: drop-shadow(0 0 30px rgba(240, 230, 140, 0.3));
+    transition: all 0.7s ease;
+    background: transparent !important;
+}
+
+/* Stars around moon */
+.theme-toggle .icon-wrapper .moon-container .star {
+    position: absolute;
+    color: #fff;
+    font-size: 12px;
+    opacity: 0.8;
+    animation: twinkle 2s ease-in-out infinite alternate;
+    background: transparent !important;
+}
+
+.theme-toggle .icon-wrapper .moon-container .star:nth-child(2) {
+    top: -15px;
+    right: -20px;
+    font-size: 10px;
+    animation-delay: 0.5s;
+}
+.theme-toggle .icon-wrapper .moon-container .star:nth-child(3) {
+    bottom: -10px;
+    left: -25px;
+    font-size: 14px;
+    animation-delay: 1s;
+}
+.theme-toggle .icon-wrapper .moon-container .star:nth-child(4) {
+    top: 5px;
+    left: -30px;
+    font-size: 8px;
+    animation-delay: 0.3s;
+}
+.theme-toggle .icon-wrapper .moon-container .star:nth-child(5) {
+    bottom: 15px;
+    right: -25px;
+    font-size: 11px;
+    animation-delay: 0.8s;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ─── SUN WITH LIGHT RAYS ─── */
+.theme-toggle .icon-wrapper .sun-container {
+    position: absolute;
+    transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    background: transparent !important;
+}
+
+.theme-toggle .icon-wrapper .sun-container .fa-sun {
+    font-size: 75px;
+    color: #ffd700;
+    filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.4));
+    transition: all 0.7s ease;
+    background: transparent !important;
+}
+
+/* Pure CSS Light Rays */
+.theme-toggle .icon-wrapper .sun-container .ray {
+    position: absolute;
+    width: 4px;
+    height: 22px;
+    background: linear-gradient(180deg, #ffd700, transparent);
+    border-radius: 2px;
+    opacity: 0.7;
+    animation: rayPulse 1.5s ease-in-out infinite alternate;
+    transform-origin: center center;
+}
+
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(2) { 
+    transform: rotate(0deg) translateY(-18px); 
+    animation-delay: 0s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(3) { 
+    transform: rotate(45deg) translateY(-18px); 
+    animation-delay: 0.15s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(4) { 
+    transform: rotate(90deg) translateY(-18px); 
+    animation-delay: 0.3s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(5) { 
+    transform: rotate(135deg) translateY(-18px); 
+    animation-delay: 0.45s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(6) { 
+    transform: rotate(180deg) translateY(-18px); 
+    animation-delay: 0.6s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(7) { 
+    transform: rotate(225deg) translateY(-18px); 
+    animation-delay: 0.75s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(8) { 
+    transform: rotate(270deg) translateY(-18px); 
+    animation-delay: 0.9s; 
+}
+.theme-toggle .icon-wrapper .sun-container .ray:nth-child(9) { 
+    transform: rotate(315deg) translateY(-18px); 
+    animation-delay: 1.05s; 
+}
+
+@keyframes rayPulse {
+    0% { 
+        opacity: 0.3; 
+        transform: rotate(var(--rot)) translateY(-12px) scale(0.8); 
+        height: 18px;
+    }
+    100% { 
+        opacity: 0.9; 
+        transform: rotate(var(--rot)) translateY(-24px) scale(1.2); 
+        height: 26px;
+    }
+}
+
+/* ─── DEFAULT STATE - MOON VISIBLE ─── */
+.theme-toggle .icon-wrapper .moon-container {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .icon-wrapper .sun-container {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.3);
+}
+
+/* ─── LIGHT STATE - SUN VISIBLE ─── */
+body.light .theme-toggle .icon-wrapper .moon-container {
+    opacity: 0;
+    transform: rotate(180deg) scale(0.3);
+}
+
+body.light .theme-toggle .icon-wrapper .sun-container {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* Hover effect - NO BACKGROUND */
+.theme-toggle:hover {
+    transform: scale(1.08);
+    background: transparent !important;
+}
+
+/* ─── SPARKLE ANIMATION ─── */
+@keyframes sparkle {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    100% { transform: scale(2.5) rotate(180deg); opacity: 0; }
+}
+.sparkle {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkle 0.8s ease-out forwards;
+    z-index: 999999;
+    background: transparent !important;
+}
+
+/* LIGHT THEME OVERRIDES - NO BLACK CIRCLE */
+body.light {
+    --bg-color: #f2f2f2;
+    --text-color: #1a1a1a;
+    --card-bg: rgba(0,0,0,0.07);
+    --search-bg: #e0e0e0;
+    --highlight-color: #007744;
+    --download-hd: linear-gradient(90deg,#00bb66,#009944);
+    --download-sd: linear-gradient(90deg,#0099dd,#0044bb);
+}
+body.light .info-icon {
+    color: var(--highlight-color);
+    background: transparent !important;
+}
+body.light .info-icon:hover {
+    color: #005533;
+}
+body.light .theme-toggle {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+body.light .theme-toggle .icon-wrapper {
+    background: transparent !important;
+}
+body.light .theme-toggle .icon-wrapper .moon-container {
+    background: transparent !important;
+}
+body.light .theme-toggle .icon-wrapper .sun-container {
+    background: transparent !important;
+}
+body.light .theme-toggle .icon-wrapper .sun-container .fa-sun {
+    background: transparent !important;
+}
+body.light .theme-toggle .icon-wrapper .moon-container .fa-moon {
+    background: transparent !important;
+}
+body.light .theme-toggle .icon-wrapper .moon-container .star {
+    background: transparent !important;
+}
+body.light .theme-toggle .icon-wrapper .sun-container .ray {
+    background: linear-gradient(180deg, #ffd700, transparent) !important;
+}
+
+/* ─── YOUR EXISTING STYLES ─── */
+.search-container{
+    text-align:center;
+    margin:20px 0;
+}
+
+.search-container input{
+    width:90%;
+    max-width:850px;
+    padding:30px;
+    font-size:40px;
+    border-radius:15px;
+    border:none;
+    background:var(--search-bg);
+    color:var(--text-color);
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+    padding:20px 20px;
+}
+.movie{
+    background: var(--card-bg);
+    border-radius:15px;
+    overflow:hidden;
+    text-align:center;
+    transition:0.7s;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+.movie img{
+    width:100%;
+    height:450px;
+    object-fit:cover;
+}
+.movie h3 {
+    font-size:30px;
+    font-weight:bold;
+    color: var(--highlight-color);
+    margin:12px 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.movie.active-touch::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg,rgba(255,255,255,0.8),transparent);
+    animation:slide 0.5s;
+    border-radius:15px;
+}
+@keyframes slide{from{left:-100%}to{left:100%}}
+.download {
+    display: block;
+    margin: 8px auto 15px auto;
+    padding: 10px 45px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+    text-align:center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.7s ease, background 0.7s ease, color 0.7s ease;
+    color:#fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.download.hd {background: var(--download-hd);}
+.download.sd {background: var(--download-sd);}
+.download:active{transform:scale(0.95);}
+.ripple{
+    position:absolute;
+    border-radius:50%;
+    transform:scale(0);
+    animation:ripple-effect 0.6s linear forwards;
+    pointer-events:none;
+    opacity:0.5;
+}
+@keyframes ripple-effect{to{transform:scale(6);opacity:0;}}
+.fadeIn{opacity:0;transform:translateY(20px);animation:fadeUp 0.6s forwards;}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+
+/* ─── TITLE FONT HEIGHT AND WEIGHT ADJUSTED ─── */
+.rainbow-text {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #1dd1a1, #5f27cd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    line-height: 1.3;
+    letter-spacing: 2px;
+}
+h1 {
+    text-align: center;
+    font-size: clamp(2.5rem, 8vw, 10.5rem);
+    margin: 5px 0 10px 0;
+}
+
+@media (max-width: 768px) {
+    .top-bar { padding: 18px 22px; }
+    .info-icon { width: 85px; height: 85px; font-size: 52px; }
+    .info-icon::before { width: 95px; height: 95px; }
+    .info-icon::after { width: 95px; height: 95px; }
+    .theme-toggle { width: 95px; height: 95px; }
+    .theme-toggle .icon-wrapper { width: 65px; height: 65px; }
+    .theme-toggle .icon-wrapper .moon-container .fa-moon { font-size: 52px; }
+    .theme-toggle .icon-wrapper .sun-container .fa-sun { font-size: 52px; }
+    .theme-toggle .icon-wrapper .moon-container .star { font-size: 8px; }
+    .theme-toggle .icon-wrapper .sun-container .ray { height: 14px; width: 3px; }
+    .search-container input { padding: 20px; font-size: 22px; }
+    .movie img { height: 300px; }
+    .movie h3 { font-size: 22px; }
+    .download { font-size: 18px; padding: 8px 25px; }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); }
+    .rainbow-text { letter-spacing: 1px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOP BAR WITH ICONS ─── -->
+<div class="top-bar">
+    <a href="https://example.com/info" target="_blank" class="info-icon">
+        <i class="fas fa-info-circle"></i>
+    </a>
+    <div class="theme-toggle" id="themeToggle">
+        <div class="icon-wrapper">
+            <!-- MOON WITH STARS -->
+            <div class="moon-container">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+            </div>
+            <!-- SUN WITH PURE CSS LIGHT RAYS -->
+            <div class="sun-container">
+                <i class="fas fa-sun"></i>               
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1><span class="rainbow-text">𝗚𝗨𝗟𝗟 𝗞𝗛𝗔𝗡 𝗪𝗘𝗕</span></h1>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search movies...">
+</div>
+
+<div class="grid" id="movieGrid"></div>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+    <source src="https://github.com/gullnoor596-svg/Background-music/raw/refs/heads/main/LET%20THE%20WORLD%20BURN.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ─── THEME TOGGLE ───
+const themeToggle = document.getElementById('themeToggle');
+
+// Check saved theme on page load
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light');
+    } else {
+        document.body.classList.remove('light');
+    }
+}
+
+// Save theme when toggled
+function toggleTheme() {
+    document.body.classList.toggle('light');
+    
+    if (document.body.classList.contains('light')) {
+        localStorage.setItem('theme', 'light');
+    } else {
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// Load saved theme on page load
+loadTheme();
+
+// Add click event with animations
+themeToggle.addEventListener('click', function(e) {
+    const wrapper = this.querySelector('.icon-wrapper');
+    const rect = wrapper.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    // Create sparkle particles
+    const colors = ['#ffd700', '#ff6b6b', '#00ff88', '#48dbfb', '#ff9ff3', '#feca57'];
+    for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        const angle = (i / 12) * Math.PI * 2 + Math.random() * 0.3;
+        const distance = 40 + Math.random() * 60;
+        const x = centerX + Math.cos(angle) * distance - 10;
+        const y = centerY + Math.sin(angle) * distance - 10;
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        sparkle.style.width = (8 + Math.random() * 18) + 'px';
+        sparkle.style.height = sparkle.style.width;
+        sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        sparkle.style.animationDuration = (0.5 + Math.random() * 0.6) + 's';
+        sparkle.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => { sparkle.remove(); }, 1200);
+    }
+    
+    // Rotate the wrapper
+    wrapper.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+    wrapper.style.transform = 'rotate(360deg) scale(1.2)';
+    
+    setTimeout(() => {
+        wrapper.style.transform = 'rotate(0deg) scale(1)';
+    }, 600);
+    
+    toggleTheme();
+});
+
+// ─── MOVIES ───
+let movies = [
+    {name:"Prince of Persia",img:"https://www.mp4moviez.care/cover/prince-of-persia:-the-sands-of-time-(2010)-hindi-dubbed-movie.jpg", link1:"https://fast-dl.org/dl/e29732", link2:"https://new6.filesdl.top/gfile.php?id=aHR0cHM6Ly9waG90b3MuYXBwLmdvby5nbC9vZWNhZkprWUN1dEhGdEUxNg=="},
+    {name:"V for Vendetta", img:"https://imgshare.info/images/2025/04/26/V.for.Vendetta.2005..jpg", link1:"https://pixeldrain.dev/u/XJcPnuBR", link2:"https://pixeldrain.dev/u/No7RJYFa"},
+    {name:"The Green Mile", img:"https://mp4moviez.football/cover/the-green-mile-(1999)-hindi-dubbed-movie.jpg", link1:"https://pixeldrain.dev/u/zHthfKXo", link2:"https://drive.google.com/file/d/1s5L4J-_oShZZGP0lhTgIz-mKJT23K0p0/view?pli=1"},
+    {name:"The Spiderwick Chronicles", img:"https://images.justwatch.com/poster/183682366/s718/the-spiderwick-chronicles.jpg", link1:"https://mp4moviez.football/dl.php?id=22291&q=720&jio=yes&title=The-Spiderwick-Chronicles-(2008)-Hindi-Dubbed-BluRay", link2:"https://111.90.159.132/family/the-spiderwick-chronicles-12122023/"},
+    {name:"We Can Be Heroes",img:"https://www.mp4moviez.fyi/cover/we-can-be-heroes-2020-hindi-dubbed-full-movie.jpg", link1:"https://hub.maverick.lat/3a604138309fda0f99a80ec686015c17?token=1777345486", link2:"https://drive.google.com/file/d/1JtcFTTCFygVdH3DbEQ_SwbaiS-VSIUpQ/view?pli=1"},
+    {name:"Dolittle 2020",img:"https://www.mp4moviez.fyi/cover/dolittle-(2020)-hindi-org-dubbed.jpg", link1:"https://pixeldrain.dev/u/NGRdVSAE", link2:"https://pixeldrain.dev/u/BH64K2VY"},
+    {name:"Undisputed (2002) ",img:"https://myimg.click/images/2022/09/29/Undisputed-2002b40487c69394d1a4.jpg", link1:"https://pixeldrain.dev/u/LMJJzGnA", link2:"https://www.mp4moviez.fyi/dl.php?id=25192&q=720&jio=yes&title=Undisputed-(2002)-Hindi-Dubbed-BluRay"},
+    {name:"Undisputed (2006)",img:"https://myimg.click/images/2022/09/26/Undisputed-2233997387474e5c5.jpg", link1:"https://drive.google.com/file/d/1nU5LKlBGnWFPcG-YxOJ-GrSehPK8YU-d/view", link2:"https://www.mp4moviez.fyi/dl.php?id=25076&q=720&jio=yes&title=Undisputed-2:-Last-Man-Standing-(2006)-Hindi-Dubbed-BluRay"},
+    {name:"Undisputed (2010) ",img:"https://myimg.click/images/2022/09/25/MV5BMTc0YzA4YjQtZGZkMi00ZmRjLWFmM2ItMDcxZTYzZGU3Z1.jpg", link1:"https://drive.google.com/file/d/1PXe3cpHMhRXo0FxwZj9HS4a7y5-8UfCU/view", link2:"https://www.mp4moviez.fyi/dl.php?id=24968&q=720&jio=yes&title=Undisputed-3:-Redemption-(2010)-Hindi-Dubbed-BluRay"},
+    {name:"Undisputed (2016)",img:"https://myimg.click/images/2022/07/22/d4130fad-686e-4e0b.jpg", link1:"https://111.90.159.132/action/boyka-undisputed-iv/", link2:"https://www.mp4moviez.fyi/dl.php?id=22783&q=720&jio=yes&title=Boyka:-Undisputed-IV-(2016)-Hindi-Dubbed-BluRay"},
+    {name:"First Blood (1982)",img:"https://www.mp4moviez.care/cover/rambo-first-blood-(1982)-hindi-dubbed-full-movie.jpg", link1:"https://hub.odyssey.surf/92e0ed9276d5188695416c682daa5a69", link2:"https://hub.odyssey.surf/2a9cfda8a6e82eec4ef4611b61a67e84?token=1777902454147"},
+    {name:"First Blood (1985)",img:"https://image.tmdb.org/t/p/w400/lIyUiHted0eWUceCx2ZHLnQGmgy.jpg", link1:"https://hub.odyssey.surf/677105c4e4192b17f7f33285c94c823a", link2:"https://pixeldrain.dev/u/thF5Nyfx"},
+    {name:"(1988)",img:"https://www.mp4moviez.care/cover/rambo-iii-1988-hindi-dubbed-full-movie.jpg", link1:"https://hub.odyssey.surf/b9b4d85bb853cc92991e1a19f104d820", link2:"https://pixel.hubcdn.fans/?id=e7cfcb79a7382e0766704f389abed390d91e52b26dbea975612324ba756f8d18b8a91540ab27e0bf8f5453a2d90b19dd8f0d38d7cae71cc65c918c42c36c57f453440b17e87fe3be126686a4cf6f450703a9705e7b8688bbcffab2ae28bcbcfc::fb67699e4c9e7f5372f7c7856f3baf90"},
+    {name:"Rambo (2008)",img:"https://image.tmdb.org/t/p/w400/3mInub5c8o00H7EJ1TrjAqOzIuc.jpg", link1:"https://gpdl.hubcdn.fans/?id=0c6c0fd85bde7ee0d07bf57f33f53eb5bf09168e110b23071c4be885ff0456c23eadfa4660e82d7c9c4219bdf8d9d39bc28ee7b9133deeb67e250b0baab67009749bf38dc0d468045f1c22cffe00982ca86a248858cdeee2b9f8260fb3cf6eb275d43b6d158c3d7c19b05dbd4e793499::a4c508295fd7e362678f457c25ed2cf1", link2:"https://gpdl.hubcdn.fans/?id=387b919e3c274789c7f00f39cbf8fad935950b0688de9c5720daf3f7138adf6808cd05eea81e862271bc8e218d6a224753c5e803602f524fcf1c3821a9080d429ddd77d8d13731d10ce3896272875204d01a5ec58c9f25101663709ec1222bcf3f60f3043e43730c5da5819b632fbb81::21f44e2a57d6cd20b7d7759bbad6cc4c"},
+    {name:"Rambo Last Blood (2019)",img:"https://www.mp4moviez.care/cover/rambo-last-blood-2019-hindi-dubbed-full-movie.jpg", link1:"https://hub.odyssey.surf/b9b4d85bb853cc92991e1a19f104d820?token=177790364717", link2:"https://hub.odyssey.surf/3200dd735e7492d06cb0dc7f70a29d09?token=1777903724"},
+    {name:"The Expendables 2010",img:"https://imgshare.info/images/2025/04/30/sdfs.jpg", link1:"https://pixeldrain.dev/u/rUmLp3Av", link2:"https://ddl2.ymthsyecrb.workers.dev/1397974776/993849f94c96a2bf520a7f55f9453bd3c6cb89664e3a834b8aac2ff73a49b3658ce02a4f73bffda096902fd7173fc0438cf3f9f079a7adb62d95da228a563219b5a09144d2c015b736e707446868db6b7a492a931b701539e364fe17961ef3cf31c67afd957899c1e7da7381851dad2d9037bde8c4d2ce6fdbee043a7cced4862a78dee757ede080aeec601affe77459c51459ea7c127430572883a97ce231fa6c5ae0ef482917de6643e548c0afa93dd40f37dbe8e42c7c28b5e39dfcbae8e0::3e99da4fcf5aa1f0ca3e69fdf99d7bb7/The.Expendables.2010.720p.BluRay.Hindi.English.DD.5.1.x264.ESubs.mkv.zip"},
+    {name:"The Expendables (2012)",img:"https://imgshare.info/images/2025/04/30/The.Expendables.2.2012..jpg", link1:"https://pixel.hubcdn.fans/?id=0612e621eca22fb353ea127ca55bb2ecb1e0c24504bfade19c48be878200a8f5f804fd41e15e58973bc3ebe6f30aa4ef900bac532904361ff9caa67def285bf069d58e4e1323f0e3b8567647749f0dc46ef36f448432c47dcb6612122bbe6dad::0ea6e438bf574d96d029df9b481af032", link2:"https://ddl2.cloudserver-1692959484.workers.dev/1397974776/40fe64c1caec8c2684a76ef0108a6ae27d885c2d7cd5a72d969ad9591183e7e68b1e66502f230a46e9705221c5393b3ea82366e1cac2d367188aa542198d9c32d3ca8ef3c99edb28efcdceeaf5892f46e23219b2772d283b7db4472a8848be462a0c246aa1b0edaaf6989307a105b742cf1c90da2ef4d18b546c16e5a803078ece29f265a08b7c0972741f088aac88d611e0a83947102780940d8292f441dd8194c4bfe82bc3e3ad9f4e619271d68ca103f5dc44b28bf3811b065cb8ca5ac6ac::b13bc1165e42427313ecca1ef1da3d5c/The.Expendables.2.2012.720p.BluRay.Hindi.English.DD.5.1.x264.ESubs.mkv.zip"},
+    {name:"The Expendables (2014)",img:"https://imgshare.info/images/2025/04/30/The.Expendables.3.2014..jpg", link1:"https://pixeldrain.dev/u/nL8c6vyS", link2:"https://pixel.hubcdn.fans/?id=6a40ac6fd20f3e3a76be33185d143be9034d52938ea86aae9f9e0a82eb044aa828cc5d406898d6d03ecd765c01b27849614fbc94619863f5163e7c67dedb7cd609f1565e5ff300561a98da9aa51e245e4076ae142c498de71b8b8b94a2a7fbca::00786592abfc5f8dc1c3fdff86737549"},
+    {name:"The Expendables (2023)",img:"https://www.mp4moviez.care/cover/the-expendables-4-(2023)-hollywood-english-movie.jpg", link1:"https://fastdl.my/dl/40a621", link2:"https://video-downloads.googleusercontent.com/ADGPM2kZ7OpRLjrxvDHorVcEs5YpoIJhpwa4W6FbLFGrv4p4E_YoB4qlhaIW4kwSyd205d80vba3oIOB6gXoins9s-ryB1bwT_974sgSrxdEAX2TUEPqkoEBDYuJSppnTTTFcga3Z2Zu8fCN9056FWEKAyx3fY89opitzVv-dVXkwiXl_euVs2XsjRam-TMFXhK9OHqvV12S-SzlFlOvc3mNIzag-l2RpFGBfRzQqtfsziFRwKUk5sc"},
+    {name:"Escape Plan 2013",img:"https://www.mp4moviez.care/cover/escape-plan-(2013)-hindi-dubbed-org-bluray.jpg", link1:"https://video-downloads.googleusercontent.com/ADGPM2npCSbjO2tEXmXSWGV4PsnXjrZXuhUEnOxOOIio01y4iKvJja0hg6jYfSbq6MT9_5efxdYr2EdC0ycV4Z2aVkdkHl3-q9t_h7mqFfKub5xQNkM-E6So2yCUWJVjPUFGCBpsdY0sJN6_R-BOm7nmGIJrsFHWDS-rL1OmdTHSXrIv1Raearxtsa6EACuGCqaR0dGICYcQrqDgxM5dNznctkmqhjxbHTxgULE4CIZYbVhbeJ6WQUsbBYQzvSjUYKS_UBVRnL_Oclxwts91GCXTCpoazJUFlHQZYJyq1xo87s22S3h80pDTvR2VLRxKSlmriegVZVqkVhIes0Le2JGs8USrLSB-IgpZezzheY3x4zj8xaaM6ZPU2okRXuPeqEuZVxl9l9HIpznHuOK-k7OWKg7KkT4rnka6Ty6cT0QRqoKlgg3C7I8doY6UR3KkP_WyWzMKvUBSS-jk2uKhH8SsmQaZgBTDLrufdKRhO9bIBGouY-6PrtqG2u36EB1x3XBm-4WZoj-Dx0ylsA19Kj_wY8O-TtxZO7flEPP8A3GkMq3VitRJX7vVH0gzadI_kpagPvZfGmNAj6JtFcNEYk8PYNGyEqpQRPdP-YSyJRLZC8WUa_aUhw3L7KepOR2vJIuMKkBZPXdfc3p9L9MFG9kLsSKZmcgsZ0OoYZfrDQddp_dWmoDwt_77Y5Wxpo2xXo3INnKf6BHsV_Ucm6e01mTksfRy2ji0MOCGm95cNlwdjFWkPa34yTOtzBT05G_ye2Xu7adoVjqrir6flbtKz3nJUmgNG3x11WKXjk3S1xjTafi1-Df-4vcV3FKFOs9Hk2VWp1ty4MuLeTpFp1-9e_4l_p_k0YiXqZWkYmIXTDzYnr1pl2LXEqCLG4U-eb1SMg8nvyvWc3QYU_VUIxx7MiRfJbun-Y6ZucZZwwuCxlmpmsdsGyyt_EkWjogLGjIl7S0fg7ZuoyXIdomgX1sH5TeH5ZUlTafiBThzbQKhOtbrwcXkEhEr3xzLrmJH7BAsgA9dusojz_MgJeG6lgVuQt40_l9Vj9okeA5OCgEbhVIf_1IevZFCR7PfdEZF7JELh9OL4NGCcGTt", link2:"https://video-downloads.googleusercontent.com/ADGPM2kQcDilXCFqYfWvi2p8Cu_P_HIh7xBXbI0uszBycyhPKmCRKMsFwL042aURbuECAhr0CbJlO7H6wyt_TvSzYugrV_eLjLCWV_00iI8qF525BCLopLSVaeHk3fexkxThw8_s4ojUjxNlZ5Gy5dM7sxMbUaVzJTJEDOuXNcmoHlnaYYWmrdyTV67hB3Sthk2mQKXrpsI8FiI1PW9y6P2-sHpucC94onImY4flAaHItRBSqM2aV4qKzvspWz-bK7K7ZPWXXw7gw4biQ6QQt_vxjo_QDmRx5xepvNxtqPjJD4rGiw_-BDusVaKvqGKeBMEbXQP5mbjzvgY6P2Qwl_Qu9kM9RmcwgIahqhTchbHEzdRoQRLXYeffDkcZi0PKauGJWO_c0NLXRYt4zO1eiDYSQNeVMr8iFbUXKYKWLjkg_lk4rUZt06oJ4QkoK5kQnMe1EnET5Xxa2Y8wCjXQ-LhblZweaFBXu7A0K1JE_69j4hYNqGSFEMGFKAiVuGfkfrrNWrLyVWVO4DhYuUByyB8lORRoGoEqZ-QJQsgcSZosmYf8qgrefrAvZ_us-JbWJcjEgR6NKb2oJy06Cfm-Fq1D75AEvBEjVDjvOyKPOcsI37ry8CysMrr2Ahg3-tch95tjDO0zLR5bxvAT_wPzMMDTaD2aXkYvUhPXwoKtm1MkxpH4zVw1oxkusgXnOW1eOZmW-ZOd6PoWwZ-oP1vKJKYU3CpBCEE5HIyBmzU96J3PpydyoY1stOVRD7yh1vz8KT2n8xtPTuqV08DP-bf6gGqNOLvgeZpW4cSgU8GjNQ1hQrx6MfUJyFoOybtsw88kjqKJyHOUaWxj0QbKHEHFDix3DJQEDg7DB0cJlFfMZ2t6q83R_8iEsKwMTjMzY_0yRhP_TZ-N2SqJJ6uRHuaEbneOObvG6GHZ7gAMn_-NJ-Obj5Onzo3EsuSjK4Mja6VtmdRAAD6U7_GR13yyRJydcgV5U1b0s3rr1JXHMW3-wL9t7c2fa0k-dJ-khmKluOFxsVqHw-NkUzDXkdymrVulC2cJuHUFEbbrkgOk7Tgtc6INWPH8ijDnoXwUz4klechUW9AkhjpJomPt"},
+    {name:"Escape Plan 2018",img:"https://www.mp4moviez.care/cover/escape-plan-2-hades-2018-hindi-dubbed-full-movie.jpg", link1:"https://video-downloads.googleusercontent.com/ADGPM2m_iqdqr5IgtbFqSj65rrBFw5p_5FUExKybRs5F5EDb2c5UVKOC-Y2sT3tVEoWhLBDJqY1AiGBR5EJmFLL5Le1Pq_S8FbJ2T3k00zVeTKCoaxM_2g1x5pRsOGITgv_2UYryMkf_pGwtBVxFHpnxCHN0KKYdL4OYgCLCuy_h434mhI1Lg7cEzPsWdqQ2sseySCRIO0yGftmO_VbC04vVjzNqjOpPHeZuNrLKeH1Bf88SyXBegVx9Okk77mYxiu1ODyQi664IRLUXBjMmwXgMNBh1J8rKXk_9x8QoYyeQ8A6TfFtNlj1cFDf2emn0WOV6RHfy18lg1FKW6o7cnZYr8PXidkkE_s-DtUzPx59Ew8KUr6ip7jg6DCFgLAqJSwlwom0mACZJfqQCYxlIt-s7U3WTa9dw2PNW-xUMZTMTL9skBLXf-a6ddAn_gLJtkzIgP6WAwgawo80hPowJtz0Csac62J_PVwgXZ8a4GeuHz2EsSM7QPC7-5FtexhOFXOBKZwNxDjsWCOMB89_6EaxlI8d6nIAZ17AMugQvrQ5_tEM4Q8QsX9q-Cia0_yYNjftRnWiGB8ACBPRVjeovV1ecuUzHkRCnmkmffvAy2PGC2rXcVoe-EHvuMq4OyuPQtejupdSGAPwSV6Pf1cClw1NAoHoCECuYKQjNOEu6lJlgtke-YAF7g62ayZvHu753jWObHFfco7VG9EwQnc3WK2cMid8KqNayPH5gHt6YsXNF8dtjpFj0cX2YCZnwQIjAAvYp12tKtAfAYVnbfFIKL9zIGfZrLK7oQB0_I0Gp-9ylu4uv7yT-QdXtxM6ZPWi-NYMR_Df_1jNf_-UYnXYenjcn-zu89BoFlK9SCvscuG_9vEJwNZv8lpjw9WPOJBy_q3N6Uq19zzuOUQRJPveOweLReG21D3xjMPag7x9IH_og5zgQCsPFovLgiswvCBX541_BdHzyG_4626nEdwEjGbDgDmhmlzfHaNF5g7x1z8-yhg-kxNBDexrNR_ThrCW0oGmus81YCu7PNsdREDZTVrNZrJwizH6ufiWVbAejyEv2NUyjxV2WVDBeTSpyry0Bv6b1n4mYhvzn", link2:"https://video-downloads.googleusercontent.com/ADGPM2nruyLHZ7q2So17q2P8l6cAZAEmp6zOH8PhbmZQQF7HGskLPcL8LyUS1iukGurlyp1-6F-R-s2rv2oQwKYYEuNiufGISwmzccEXShrWXREySLjjpa-LMX57PwCM2MG6dV1bX9vqtldtw32_rBTk7wJSC97sFfvSnuks1LKGjCdEjV5tD_Zj4cIh4AhOesTQ913BcMNmhMGRbDOLBfeQDk3eJs5snEkHMPaNIb4sBjAtmKV8KRfL8xxHa7T7RNO1cSTlsJLoVJD-7cLzaBRS8Tww3bBgkYg4KgykuMCOpRhJcfYbvyUxNE1Vzc0pfswnZQ-Hb-Tors71DiNXmw_MpZWV_iZtLHlIyf7aYRr3BogQZjBuMPvykdcbIrX-e7STb75hiIdiIZxQAgw0ECgUDjHDLRJ9GtZ_7juPMvp_Hry6HHLU23-mRio8v2t31_KnnMmjNLKG3rMwZCOjyxK734TyZ0x4kf9XD43tE8_Mb6indQFfm0TSrH5h3InXoRIxCkvVJvweHUKhUWe1c0-xJJ4OuLSV8HSDdJFcTOtVCNPb4PUDFOpC4YR6HmL3pb0JzHspHR6Bc8B5sce-J-64w2M3X5EsjKKcepMlxRUocSLdZeQ-bVHzU8ysKYy7pd8D6WnMImVrzSl14Nro0n4ZWJljFiyKVcUFlNT4Dnf42asnMxQLYLNst3jBo42SuBmyb04AR4JLybYrd5_pZtu12C_G2Yh1-cj-Ktdm-K17NFwfWsL0HkPqCiklAo4IBUQaeplmsVqSwsFc_rv6xm4uzovW5EF2aN3qgJD-id6sJzDFu_cSPjlhx4NeLjU2zsLH92n179EFyN8yo0K8EU2NfbLPYL7XSKeSSVwyNEtEZwbdqdrYpuo5kLdmGVpsx0ydri7W5kzeYqfj5L2k0Eh0rPnHgztsiiYY2OwY3BoHY0S3L-dY7UTGkp1hGg4rSwkq3eORJlpKd29_82rL7CTyhmv0_BMw-Gl-NuHT2WVkml4_z91Li1qbY9JXKxyXo4wHNMYWxMspoW9TDQveUYSeSPSG5sCwOPKQI-llJVtuBlLMvLi2Dh5P7PIcU4jslm0psOBoneAd"},
+    {name:"Escape Plan 2019",img:"https://raw.githubusercontent.com/gullnoor596-svg/Movies-jpg/refs/heads/main/images.jpeg", link1:"https://www.mp4moviez.care/dl.php?id=1187&q=720&jio=yes&title=Escape-Plan-The-Extractors-2019-English-DVDRip", link2:" "},
+    {name:"Backtrace (2018)",img:"https://myimg.click/images/2021/08/05/bcrXBFKoPwL5gKeNmMOGyIPPbYz.jpg", link1:"https://fastdl.my/dl/050022", link2:"https://fastdl.my/dl/35af08"},
+    {name:"Armor (2024)",img:"https://www.mp4moviez.care/cover/armor-(2024)-hollywood-english-movie.jpg", link1:"https://www.mp4moviez.care/dl.php?id=43372&q=720&jio=yes&title=Armor-(2024)-Hollywood-English-Movie", link2:"https://www.mp4moviez.care/dl.php?id=43372&q=720&title=Armor-(2024)-Hollywood-English-Movie"},
+    {name:"Alarum (2025) ",img:"https://image.tmdb.org/t/p/w400/ckyYZf5cGTSOwF8LWIRqeThyh18.jpg", link1:"https://pixeldrain.dev/u/p8h5sUHM", link2:"https://pixeldrain.dev/u/McYxfFZs"},
+    {name:"Terminator 1984",img:"https://filmyone.xyz/uploads/posts/covers/the-terminator-1984-hindi-dual-audio-720p-bluray-800mb.webp", link1:"https://fastdl.my/dl/6e27ee", link2:"https://fastdl.my/dl/ab425d"},
+    {name:"Terminator 1991",img:"https://filmyone.xyz/uploads/posts/covers/terminator-2-1991-hindi-dual-audio-720p-bluray-950mb.webp", link1:"https://ddl2.cloudserver-1692963598.workers.dev/1397974845/7fceaa31f62090df0983645059efcd0cdb92982532f46bd0a79747a1980e4c1d21db83f1de86bed9e2682ad3f12c175fe4827807da2601658a66be988e71962dec00dda9f3dfb7f637446f935ba9c0c0e3f1910b1d4a7a4b0bf01e1dbdb2a52536103bc19a97d0167656eab7fcde4419b39151546b0a7f0dc95078328ba7cf84dd66756ca41df2d600ad6e700133c4fba8d3e7287c0e5cc8a8ad6332932426113d1732c63edaa9447527b4dee96f0aefd4be3e0308dd1e60f7a66e517ef4ece5::9ce20135a16f65fcde186c29340dbab2/Terminator.2.Judgment.Day.1991.1080p.BluRay.Hindi.English.DD.2.0.x264.ESubs.mkv.zip", link2:"https://broad-breeze-a56a.jegik209786862.workers.dev/896a41c4065bf8061985a8debd58d260665f5019c11f92026687171e020f40fab1e29b3ed3deedd57613bfca92997ade::e73ba4009376a0de171d02ab6314e079/1397974845/Terminator.2.Judgment.Day.1991.720p.BluRay.Hindi.English.DD.2.0.x264.ESubs.mkv"},
+    {name:"Terminator 2003",img:"https://filmyone.xyz/uploads/posts/covers/terminator-3-rise-of-the-machines-2003-hindi-dual-audio-720p-bluray-850mb.webp", link1:"https://pixeldrain.dev/u/LPJPLLwJ", link2:"https://pixeldrain.dev/u/5mv4b4F9"},
+    {name:"Terminator 2009",img:"https://filmyone.xyz/uploads/posts/covers/terminator-salvation-2009-hindi-dual-audio-480p-bluray-350mb.webp", link1:"https://pixeldrain.dev/u/NX6yRWHd", link2:"https://pixeldrain.dev/u/eEsFYXev"},
+    {name:"Terminator 2015",img:"https://filmyone.xyz/uploads/posts/covers/terminator-genisys-2015-hindi-dual-audio-480p-bluray-380mb.webp", link1:"https://hub.toxix.buzz/fc608deb801a07037819ed10cc18f515?token=1777973324", link2:"https://hub.toxix.buzz/58edca93c6cfc558497e94a92f28e121?token=1777973355129"},
+    {name:"Terminator 2019",img:"https://filmyone.xyz/uploads/posts/covers/terminator-dark-fate-2019-hindi-org-dual-audio-480p.webp", link1:"https://pixeldrain.dev/u/RiAbQuZz", link2:"https://pixel.hubcdn.fans/?id=6bd9beac8e746405801ad5cab2df492caebb05fe1d6287e81f5b502dab17b433524999db0b1a53012ca0df46b954079bb3dc6a9c7b03f210a6516422466d14cae44a7ec999918bf6e41bc8cf50ab298fb32809f2b361c31c64f7ca1988a3422c::79840672d2c81d7642ef7b7e63d1614e"},
+    {name:"Commando (1985)",img:"https://www.mp4moviez.care/cover/commando-(1985)-hindi-dubbed-movie.jpg", link1:" ", link2:"https://www.mp4moviez.care/dl.php?id=46397&q=720&jio=yes&title=Commando-(1985)-Hindi-Dubbed-Movie"},
+    {name:"Predator (1987) ",img:"https://imgshare.info/images/2026/03/05/Predator.1987.jpg", link1:"https://pixeldrain.dev/u/mYRb9ETU", link2:"https://hub.odyssey.surf/f8ca2643a16ecdfdcd28ac39ff605165?token=177798249411"},
+    {name:"The Last Stand (2013)",img:"https://www.mp4moviez.care/cover/the-last-stand-(2013)-hindi-dubbed-org-bluray.jpg", link1:"https://dl.yuudrive.me/d/6e8a3fdd293f6fc2cf10218e89cc12c8d347e4165a5694a11a668fe9cccb4cc8629bcf208d702db03b85c62c6e7c785abeb909e4e194cc65d0bede476319441a4jtghuwQHjnF2WUxvl55lgK~bx1GOZW6DbldeIw5AuZh1NEbdFV0q0bqUdfJ1mxn29jy0dsfxXCQod3wxGih6Q--", link2:"https://www.mp4moviez.care/dl.php?id=11347&q=720&jio=yes&title=The-Last-Stand-(2013)-Hindi-Dubbed-ORG-BluRay"},
+    {name:"True Lies (1994)",img:"https://www.mp4moviez.care/cover/true-lies-(1994)-hindi-dubbed.jpg", link1:"https://www.mp4moviez.care/dl.php?id=39511&q=720&jio=yes&title=True-Lies-(1994)-Hindi-Dubbed-Movie", link2:"https://www.mp4moviez.care/dl.php?id=6238&q=720&jio=yes&title=True-Lies-1994-Hindi-Dubbed-Movie"},
+    {name:"Collateral Damage (2002)",img:"https://raw.githubusercontent.com/gullnoor596-svg/Movies-jpg/refs/heads/main/b2b0d6514349df374a1705f3294be13dfc89a6cd1209c74edd8f7e98c508eb19.jpg", link1:"https://video-downloads.googleusercontent.com/ADGPM2k7zP_4_wDAGqBPTRyYrCO8wc5KXeSWBuZP3DUiWs9wuYGXqhPUzqbdUstQ5dYBaB4udpOeKFeSZizStiAAZQeT8rnWR0dmsZkkwzaKwSA0hyZdSUoStx_z_SG1x3ulmma11xzj6rxHz_2ktGjITeXTFJ8TPceX4V7RHnHuEhfi4G6lYwwxIpNbJtfc2yaIBcnmRv2-kQLdHGHlLlU7SWYtezs4SqDHRM8R_KhV3uelSgGT6TBTcO7i23WeJ_o0hOrBw2Ur8rkb3Ox_U_GlgoLtx_59sDcZvQjdnbWHICMUCCj9_bh8NioghZrQyyxHdkjd9MLMU4gGSdV6Zb2Jzw4zRKTQyFbjg5FdmDnDtOH9eh-FKJgAQZ1pp4MfS0uFCjBJXiELmgPyxaH4Sy70S1AidCxtWQsNsWk5Sv1ZnomR_I-3z4IILHo0fxgQow2Bjm0w1WvODIjY6ej_IAgxkQinRV-jA9yB0ILWzVd61w5uY2uspCSZRz6gjge2eJMoPT4pyB2HgIsjEWlsi4kptpkMpj71zeaQCTZfEZXD2Sn_88Sr6ti2s_vm32IHRyyK2JtTH_e1P8moTAUK1vvMJiVBPnYlDcvRAspluUWkwNhat3_65oy58ff_QvqmkYTQqNU7bgh-ktTFDuizlL1puqLluve2IjppDpHaioEEL_EL2JEEqSEUa9h9WGwqtk68g8WzgkzZRsqCiDN8a-0Mtkeiq5GYCDpu2xAnYPEUgEfUlgq5IW83PUbRgWqj-QtEDnwriHf0ANuWOwGRfdt7oTS8gNOSSRfFOqmvyzmZ3jaTmuanWD953WxJ1LIFKGplHZujYSe1exh8IyIj-0_WyZ-MM2gDtKfGUyACY1rqU6DAZf6FYmF6Zi2A0YUrqj1dOqncajccS-04PqVNJTC3AFHGaHrB0X4a6tzMLh-auKoIwkWc82oqrX2A1_gu0pf3BWC1aGe2IzUzZ8LdEmQnoO69oHlJXgo6IxkcS9mIxKN7mf3JypZTH7XcooQYWOT0AWRTBbM8v5icISL0SWzBu6fTBZHuid-mbzDfo9RmW5r5bYPKSl4aa9Nh0UMMoC9qDKOMGYPa", link2:"https://video-downloads.googleusercontent.com/ADGPM2k0ox8KYLbvZMZcqAhRJZVmSrMFjl5v2b4MEMeSIceP7PmdwoFc3YGTyC_8Cx2ehMDYTfEfCgrpr5DqHbkmEBKQQlWMuXFBmwNpSsbiNlc5V6tH9QepU_ouAdpEXqXILjrAfHkEWdwAWEHbI2mSNpW0RcqsXMRY_qPwU2oQD7oW9MPFqvbi7kSmscTZJEFOeLB9dy9Ip8e5i67yZTyu31B-i6K_g_N-1gGd1FcwTqkCyfs47H3frtrLnVPX3AEkUgJkUsCGJZfM7FXf9JnDr5jT1Ts2sQM_ptRZqWNoCmUMQhDKypGLzmdy9qmyYI9HEAA11USe-WGAKHlxH3gvYTGNv3llAgWEEuJbMUGnbIAd5e9n1rp7zXmfZH3RpRbJpbMgE4AZY7WxZ-u6KnKEbckwxHdcHKHS9VV-7fE7HC4VZu24ZQkKm8SpIZlT9RkiZpwDd2IZFZKycK_Yhq6C-oEgxz1hJ1DwwZHbJxZxwMZJHCR9XND7RItrhCWzELrA259wLo0QyHYRrF_xn1_C0UpWr4Lm9EVhcnS6zc8haUkXM-6TKvv1Cqn2n2p4L1gYrFIu9lQMLZ1U__gZF27CPlAwOvdTUmmXZorWDtIOUnSWfpWHL1-5VXSwelcOsCMSjAKSJKjasNxQ8FnKlfl3Fbr0t4ggdg2RXfiJ0dU9J4gk_3pZN2iGzA0jvJdPiBoyWqqBgyhZXoVaWez7WMS0E1rMlSAvBrbqLgS6etDWYESOqU_FrBpzEhvdPBOD3UA_zxRlU9obagsrct2R6zcgSx7VhtDgd951fAaV4XnrboCxX_VNm8kFJGcnEr_tewtGfWEnn4d0ePlclz12Ut3N4RiJo1hVuSZjz8ooNvvlOeIAZOUjfSLNJ2oT5IHsKlRRmhUMf2a7tmuRnQ1RXVAVC7UP1cuJzD1wbqnojcIdBxKwvflhV33E4vjX6kkyIFddnSZktHXzcpe7A2cxXVDvMVvoRCeuTImlQHtQ1Btf5T64y8NNZZha8GElGhe1jggq7is5RbWZcohAS6DIC8G7Trvp4y8GndhXTGJSHPAeqlSWMeGgcXDiP7FvumKCwz2sYEW6zuIu"},  
+    {name:"Thor (2011)",img:"https://image.linkmake.in/images/files/9c065ab147763120e8c6d60cf173b589253152.png", link1:"https://new6.filesdl.top/cloud/4tMXOPNL7o", link2:"https://new6.filesdl.top/cloud/PB7tp6cAK9idPmq"},
+    {name:"Thor: The Dark World (2013)",img:"https://www.mp4moviez.care/cover/thor:-the-dark-world-(2013)-hindi-dubbed-movie.jpg", link1:"https://new6.filesdl.top/cloud/n2zvqMpWBLqFFqv", link2:"https://new6.filesdl.top/cloud/tiEufL5Vf1LRcV7"},
+    {name:"Thor: Ragnarok (2017)",img:"https://www.mp4moviez.care/cover/thor:-ragnarok-(2017)-dual-audio-[hindi-+-english]-bluray.jpg", link1:"https://pixeldrain.dev/u/AzSf9v5H", link2:"https://pixeldrain.dev/u/RBBW3Wpc "},
+    {name:"Ice Age (2012)",img:"https://imgshare.info/images/2026/02/11/Ice.Age.4.Continental.Drift.2012..jpg", link1:"https://hub.diskcdn.buzz/edcd59f0391c47c7f7fb0c110a4715a0?token=1777968942", link2:"https://hub.diskcdn.buzz/23aca219513b32dd3de2aaf47cddcf15?token=1777968979"},
+    {name:"Ice Age (2016)",img:"https://imgshare.info/images/2026/02/11/Ice-Age-5-Collision-Course2016.jpg", link1:"https://pixeldrain.dev/u/a9VAQqbq", link2:"https://hub.diskcdn.buzz/260d9e81d8d19b4ee324c88a801e30ab?token=1777969014116"},
+    {name:"Ice Age (2022)",img:"https://i0.wp.com/123mkv.stream/wp-content/uploads/2022/01/The-Ice-Age-Adventures-of-Buck-Wild-Full-Movie-Download-Free-2022-Dual-Audio-HD.jpg?w=300&ssl=1", link1:"https://www.mp4moviez.care/dl.php?id=17911&q=720&jio=yes&title=The-Ice-Age-Adventures-of-Buck-Wild-(2022)-English-(With-Hindi-Subtitles)-WEBRip", link2:"https://www.pagalmovies.courses/download/9737/server_1"},
+       
+   
+];
+for(let i=6; i<=100; i++) {
+    movies.push({name:"Hollywood "+i, img:`https://via.placeholder.com/300x450?text=Hollywood+${i}`, link1:"#", link2:"#"});
+}
+
+const grid = document.getElementById("movieGrid");
+const batchSize = 50;
+let currentIndex = 0;
+
+function loadBatch(list = movies) {
+    const nextBatch = list.slice(currentIndex, currentIndex + batchSize);
+    nextBatch.forEach(m => {
+        let box = document.createElement("div");
+        box.className = "movie fadeIn";
+        box.innerHTML = `
+            <img src="${m.img}" alt="${m.name}">
+            <h3>${m.name}</h3>
+            <a class="download hd" href="${m.link1}" target="_blank">Download HD</a>
+            <a class="download sd" href="${m.link2}" target="_blank">Download SD</a>
+        `;
+        grid.appendChild(box);
+        box.addEventListener("touchstart", e => {
+            if(!e.target.classList.contains('download')) box.classList.add("active-touch");
+        });
+        box.addEventListener("touchend", () => setTimeout(() => box.classList.remove("active-touch"), 300));
+    });
+    currentIndex += batchSize;
+}
+
+loadBatch();
+
+window.addEventListener('scroll', () => {
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        if(currentIndex < movies.length) loadBatch();
+    }
+});
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    let q = e.target.value.toLowerCase();
+    currentIndex = 0;
+    grid.innerHTML = "";
+    let filtered = movies.filter(m => m.name.toLowerCase().includes(q));
+    loadBatch(filtered);
+});
+</script>
+</body>
+</html>
